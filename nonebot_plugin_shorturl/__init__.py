@@ -60,7 +60,7 @@ def get_provider():
 
 if isinstance(server_app, FastAPI):
 
-    @server_app.get("/shorturl/{encoded}")
+    @server_app.get(plugin_config.shorturl_endpoint)
     async def endpoint_handler(encoded: str):
         decoded: int = base62.decode(encoded)
         provider = get_provider()
@@ -77,4 +77,8 @@ class ShortURL:
 
     async def to_url(self) -> str:
         index = await get_provider().store(self.url)
-        return f"{plugin_config.shorturl_host}/shorturl/{base62.encode(index)}"
+        return (
+            plugin_config.shorturl_host
+            + plugin_config.shorturl_endpoint
+            + base62.encode(index)
+        )

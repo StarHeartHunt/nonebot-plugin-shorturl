@@ -32,8 +32,9 @@ _✨ 为 NoneBot 插件提供短链接服务支持 ✨_
 
 ### 通用配置项
 
-- `SHORTURL_HOST`（必填）：用于为外部插件构造完整的包含域名的短链接
-- `SHORTURL_CACHE_TYPE`：指定短链接服务的后端缓存类型，可选值：`memory` |`diskcache`| `redis`
+- `SHORTURL_HOST`（必填）：用于为外部插件构造完整的包含域名的短链接。示例值：`http://localhost:8080`
+- `SHORTURL_ENDPOINT`：指定短链接服务的入口点模板。默认值：`/shorturl/{encoded}`，可以自定义为 `/s/{encoded}` 等
+- `SHORTURL_CACHE_TYPE`：指定短链接服务的后端缓存类型，可选值：`memory` | `diskcache` | `redis`
 
 ### 差分配置项
 
