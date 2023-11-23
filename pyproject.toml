@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-shorturl"
-version = "0.1.0"
+version = "0.1.1"
 description = "Generate short url by bot for bypassing censorship"
 license = "MIT"
 authors = ["StarHeartHunt <starheart233@gmail.com>"]
