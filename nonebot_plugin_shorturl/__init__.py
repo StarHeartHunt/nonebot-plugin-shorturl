@@ -23,15 +23,15 @@ def init_provider():
     global _cache_provider
 
     if plugin_config.shorturl_cache_type == CacheType.diskcache:
-        from .provider import DiskcacheProvider
+        from .provider.diskcache import DiskcacheProvider
 
         _cache_provider = DiskcacheProvider()
     elif plugin_config.shorturl_cache_type == CacheType.redis:
-        from .provider import RedisCacheProvider
+        from .provider.redis import RedisCacheProvider
 
         _cache_provider = RedisCacheProvider()
     elif plugin_config.shorturl_cache_type == CacheType.memory:
-        from .provider import MemoryProvider
+        from .provider.memory import MemoryProvider
 
         _cache_provider = MemoryProvider()
 
