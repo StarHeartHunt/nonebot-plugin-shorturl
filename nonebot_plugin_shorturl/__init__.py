@@ -77,8 +77,6 @@ class ShortURL:
 
     async def to_url(self) -> str:
         index = await get_provider().store(self.url)
-        return (
-            plugin_config.shorturl_host
-            + plugin_config.shorturl_endpoint
-            + base62.encode(index)
+        return plugin_config.shorturl_host + plugin_config.shorturl_endpoint.format(
+            encoded=base62.encode(index)
         )
