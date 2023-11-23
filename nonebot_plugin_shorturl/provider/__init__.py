@@ -11,5 +11,6 @@ class CacheProvider(abc.ABC):
         raise NotImplementedError
 
 
+from .memory import MemoryProvider as MemoryProvider
 from .redis import RedisCacheProvider as RedisCacheProvider
 from .diskcache import DiskcacheProvider as DiskcacheProvider

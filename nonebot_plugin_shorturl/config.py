@@ -4,11 +4,11 @@ from pydantic import Field, BaseModel, AnyHttpUrl
 
 
 class CacheType(str, Enum):
-    none = "none"
     redis = "redis"
+    memory = "memory"
     diskcache = "diskcache"
 
 
 class Config(BaseModel):
     shorturl_host: AnyHttpUrl
-    shorturl_cache_type: CacheType = Field(CacheType.none)
+    shorturl_cache_type: CacheType = Field(CacheType.memory)

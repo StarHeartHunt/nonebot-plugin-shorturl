@@ -25,7 +25,7 @@ trio = ["trio (<0.22)"]
 name = "async-timeout"
 version = "4.0.3"
 description = "Timeout context manager for asyncio programs"
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "async-timeout-4.0.3.tar.gz", hash = "sha256:4640d96be84d82d02ed59ea2b7105a0f7b33abe8703703cd0ab0bf87c427522f"},
@@ -114,7 +114,7 @@ files = [
 name = "diskcache"
 version = "5.6.3"
 description = "Disk Cache -- Disk and file backed persistent cache."
-optional = false
+optional = true
 python-versions = ">=3"
 files = [
     {file = "diskcache-5.6.3-py3-none-any.whl", hash = "sha256:5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19"},
@@ -197,7 +197,7 @@ files = [
 name = "hiredis"
 version = "2.2.3"
 description = "Python wrapper for hiredis"
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "hiredis-2.2.3-cp310-cp310-macosx_10_12_universal2.whl", hash = "sha256:9a1a80a8fa767f2fdc3870316a54b84fe9fc09fa6ab6a2686783de6a228a4604"},
@@ -774,7 +774,7 @@ files = [
 name = "redis"
 version = "5.0.1"
 description = "Python client for Redis database and key-value store"
-optional = false
+optional = true
 python-versions = ">=3.7"
 files = [
     {file = "redis-5.0.1-py3-none-any.whl", hash = "sha256:ed4802971884ae19d640775ba3b03aa2e7bd5e8fb8dfaed2decce4d0fc48391f"},
@@ -1268,7 +1268,12 @@ files = [
 idna = ">=2.0"
 multidict = ">=4.0"
 
+[extras]
+all = ["diskcache", "redis"]
+diskcache = ["diskcache"]
+redis = ["redis"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "08095d1f7823d390a40e8efe4f714db063ffafbcbe623a734ff11b92b8836309"
+content-hash = "e5ef3b81ff0224c82c89ebe13c350610d7c6a75e564be5e9f1ecc6faf91fbb41"

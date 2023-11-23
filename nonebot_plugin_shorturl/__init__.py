@@ -4,7 +4,7 @@ import base62
 from fastapi import FastAPI
 from nonebot.plugin import PluginMetadata
 from fastapi.responses import RedirectResponse
-from nonebot import logger, get_app, get_driver
+from nonebot import get_app, get_driver
 
 from .provider import CacheProvider
 from .config import Config, CacheType
@@ -30,9 +30,10 @@ def init_provider():
         from .provider import RedisCacheProvider
 
         _cache_provider = RedisCacheProvider()
-    elif plugin_config.shorturl_cache_type == CacheType.none:
-        logger.warning("No shorturl cache type provided. ShortURL plugin disabled!")
-        return
+    elif plugin_config.shorturl_cache_type == CacheType.memory:
+        from .provider import MemoryProvider
+
+        _cache_provider = MemoryProvider()
 
     return _cache_provider
 

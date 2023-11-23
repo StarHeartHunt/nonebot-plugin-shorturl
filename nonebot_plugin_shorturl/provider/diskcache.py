@@ -28,6 +28,6 @@ class DiskcacheProvider(CacheProvider):
     async def store(self, url: str) -> int:
         count = self.cache.get(COUNT_KEY_FORMAT, default=0) + 1  # type: ignore
         self.cache.set(COUNT_KEY_FORMAT, count)
-        self.cache.set(CACHE_KEY_FORMAT.format(index=count), str(url))
+        self.cache.set(CACHE_KEY_FORMAT.format(index=count), url)
 
         return count
