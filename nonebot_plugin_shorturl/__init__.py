@@ -1,4 +1,5 @@
 from typing import Optional
+from urllib.parse import urlparse
 
 import base62
 from fastapi import FastAPI
@@ -67,6 +68,9 @@ if isinstance(server_app, FastAPI):
 
         if not (url := await provider.lookup(decoded)):
             return
+
+        if not urlparse(url).hostname:
+            url = f"http://{url}"
 
         return RedirectResponse(url)
 
