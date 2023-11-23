@@ -1,7 +1,7 @@
 from typing import Optional
 from typing_extensions import override
 
-import redis
+import redis.asyncio as redis
 from nonebot import get_driver
 from pydantic import BaseModel, validator
 
@@ -32,18 +32,19 @@ class RedisCacheProvider(CacheProvider):
             username=self.redis_config.shorturl_redis_username,
             password=self.redis_config.shorturl_redis_password,
             encoding="utf-8",
-            decode_responses=False,
         )
 
     @override
     async def lookup(self, index: str) -> str:
-        cache: str = await self.redis_client.get(CACHE_KEY_FORMAT.format(index=index))
+        cache = (
+            await self.redis_client.get(CACHE_KEY_FORMAT.format(index=index))
+        ).decode()
 
         return cache
 
     @override
     async def store(self, url: str) -> int:
         count = await self.redis_client.incr(COUNT_KEY_FORMAT)
-        self.redis_client.set(CACHE_KEY_FORMAT.format(key=count), str(url))
+        await self.redis_client.set(CACHE_KEY_FORMAT.format(index=count), url)
 
         return count
