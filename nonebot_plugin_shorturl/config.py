@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import Field, BaseModel
+from pydantic import Field, BaseModel, AnyHttpUrl
 
 
 class CacheType(str, Enum):
@@ -9,4 +9,5 @@ class CacheType(str, Enum):
 
 
 class Config(BaseModel):
+    shorturl_host: AnyHttpUrl
     shorturl_cache_type: CacheType = Field(CacheType.diskcache)

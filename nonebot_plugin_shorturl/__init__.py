@@ -41,4 +41,16 @@ async def custom_api(encoded: str):
     decoded: int = base62.decode(encoded)
     provider = get_provider()
 
-    return RedirectResponse(await provider.lookup(decoded))
+    if not (url := await provider.lookup(decoded)):
+        return
+
+    return RedirectResponse(url)
+
+
+class ShortURL:
+    def __init__(self, url: str) -> None:
+        self.url: str = url
+
+    async def to_url(self) -> str:
+        index = await get_provider().store(self.url)
+        return f"{plugin_config.shorturl_host}/shorturl/{base62.encode(index)}"
