@@ -12,7 +12,10 @@ keywords = ["nonebot", "nonebot2", "shorturl"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-nonebot2 = "^2.0.0"
+pybase62 = "^1.0.0"
+diskcache = { version = "^5.6.3", optional = true }
+redis = { version = "^5.0.0", extras = ["hiredis"], optional = true }
+nonebot2 = { version = "^2.0.0", extras = ["fastapi"] }
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.0"
@@ -20,6 +23,11 @@ isort = "^5.10.1"
 black = "^23.1.0"
 nonemoji = "^0.1.3"
 pre-commit = "^3.3.0"
+
+[tool.poetry.extras]
+redis = ["redis"]
+diskcache = ["diskcache"]
+all = ["diskcache", "redis"]
 
 [tool.black]
 line-length = 88
