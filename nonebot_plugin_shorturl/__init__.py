@@ -2,11 +2,11 @@ from typing import Optional
 
 import base62
 from fastapi import FastAPI
-from nonebot import get_app, get_driver
+from nonebot import get_app, get_driver, logger
 from fastapi.responses import RedirectResponse
 
 from .config import Config, CacheType
-from .provider import CacheProvider, DiskcacheProvider, RedisCacheProvider
+from .provider import CacheProvider
 
 if not isinstance((server_app := get_app()), FastAPI):
     raise ValueError("ShortURL supports FastAPI driver only")
@@ -18,22 +18,29 @@ _cache_provider: Optional[CacheProvider] = None
 
 
 @driver.on_startup
-def init_provider() -> CacheProvider:
+def init_provider():
     global _cache_provider
 
     if plugin_config.shorturl_cache_type == CacheType.diskcache:
+        from .provider import DiskcacheProvider
+
         _cache_provider = DiskcacheProvider()
     elif plugin_config.shorturl_cache_type == CacheType.redis:
-        _cache_provider = RedisCacheProvider()
+        from .provider import RedisCacheProvider
 
-    if not _cache_provider:
-        raise RuntimeError("Failed to initialize shorturl cache provider")
+        _cache_provider = RedisCacheProvider()
+    elif plugin_config.shorturl_cache_type == CacheType.none:
+        logger.warning("No shorturl cache type provided. ShortURL plugin disabled!")
+        return
 
     return _cache_provider
 
 
 def get_provider():
-    return _cache_provider or init_provider()
+    if not _cache_provider:
+        raise RuntimeError("Shorturl cache provider not initialized!")
+
+    return _cache_provider
 
 
 @server_app.get("/shorturl/{encoded}")
