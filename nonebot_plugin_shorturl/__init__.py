@@ -1,8 +1,9 @@
 from typing import Optional
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import base62
 from fastapi import FastAPI
+from pydantic import BaseModel
 from nonebot.drivers import ASGIMixin
 from nonebot.plugin import PluginMetadata
 from fastapi.responses import RedirectResponse
@@ -25,7 +26,7 @@ driver = get_driver()
 server_app = get_app() if isinstance(driver, ASGIMixin) else None
 
 if not server_app or not isinstance(server_app, FastAPI):
-    logger.warning("ShortURL plugin only support fastapi driver")
+    logger.warning("ShortURL plugin only supports fastapi driver")
 
 plugin_config = Config.parse_obj(driver.config)
 
@@ -67,7 +68,7 @@ if isinstance(server_app, FastAPI):
         provider = get_provider()
 
         if not (url := await provider.lookup(decoded)):
-            return
+            return {"msg": "url not found in cache"}
 
         if not urlparse(url).hostname:
             url = f"http://{url}"
@@ -75,12 +76,12 @@ if isinstance(server_app, FastAPI):
         return RedirectResponse(url)
 
 
-class ShortURL:
-    def __init__(self, url: str) -> None:
-        self.url: str = url
+class ShortURL(BaseModel):
+    url: str
 
     async def to_url(self) -> str:
         index = await get_provider().store(self.url)
-        return plugin_config.shorturl_host + plugin_config.shorturl_endpoint.format(
-            encoded=base62.encode(index)
+        return urljoin(
+            plugin_config.shorturl_host,
+            plugin_config.shorturl_endpoint.format(encoded=base62.encode(index)),
         )
