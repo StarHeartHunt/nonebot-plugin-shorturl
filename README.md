@@ -24,6 +24,21 @@ _✨ 为 NoneBot 插件提供短链接服务支持 ✨_
   <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="python">
 </p>
 
+## 安装
+
+```bash
+pip install nonebot-plugin-shorturl
+poetry add nonebot-plugin-shorturl
+pdm add nonebot-plugin-shorturl
+
+# 特定后端
+pip install nonebot-plugin-shorturl[redis]
+pip install nonebot-plugin-shorturl[diskcache]
+
+# 所有后端
+pip install nonebot-plugin-shorturl[all]
+```
+
 ## 使用方式
 
 在 `.env` 文件中添加必填的配置项
