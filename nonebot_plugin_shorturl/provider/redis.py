@@ -6,7 +6,7 @@ from nonebot import get_driver
 from pydantic import BaseModel, validator
 
 from . import CacheProvider
-from .consts import CACHE_KEY_FORMAT, COUNT_KEY_FORMAT
+from .consts import CACHE_KEY_FORMAT
 
 
 class RedisConfig(BaseModel):
@@ -35,16 +35,16 @@ class RedisCacheProvider(CacheProvider):
         )
 
     @override
-    async def lookup(self, index: str) -> str:
+    async def lookup(self, token: str):
         cache = (
-            await self.redis_client.get(CACHE_KEY_FORMAT.format(index=index))
+            await self.redis_client.get(CACHE_KEY_FORMAT.format(token=token))
         ).decode()
 
         return cache
 
     @override
-    async def store(self, url: str) -> int:
-        count = await self.redis_client.incr(COUNT_KEY_FORMAT)
-        await self.redis_client.set(CACHE_KEY_FORMAT.format(index=count), url)
+    async def store(self, url: str):
+        token = await self.get_unique_token()
+        await self.redis_client.set(CACHE_KEY_FORMAT.format(token=token), url)
 
-        return count
+        return token

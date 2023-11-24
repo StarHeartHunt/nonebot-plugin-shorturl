@@ -634,16 +634,6 @@ files = [
 wcwidth = "*"
 
 [[package]]
-name = "pybase62"
-version = "1.0.0"
-description = "Python module for base62 encoding"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pybase62-1.0.0-py3-none-any.whl", hash = "sha256:60539ad956ec9e9de091bc7ae88c9550bc2fa17f503050cf34d021b75e73cb27"},
-]
-
-[[package]]
 name = "pydantic"
 version = "1.10.13"
 description = "Data validation and settings management using python type hints"
@@ -1276,4 +1266,4 @@ redis = ["redis"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "e5ef3b81ff0224c82c89ebe13c350610d7c6a75e564be5e9f1ecc6faf91fbb41"
+content-hash = "ae7e113a9362155f3663f1ff1af3f5171f2c20a1e47fff750b80c23ea660e372"

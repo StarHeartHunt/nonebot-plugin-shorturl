@@ -1,2 +1,1 @@
-CACHE_KEY_FORMAT = "shorturl:{index}"
-COUNT_KEY_FORMAT = "shorturl:count"
+CACHE_KEY_FORMAT = "shorturl:{token}"

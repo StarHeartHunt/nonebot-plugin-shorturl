@@ -8,19 +8,17 @@ from .consts import CACHE_KEY_FORMAT
 class MemoryProvider(CacheProvider):
     def __init__(self) -> None:
         super().__init__()
-        self.count = 0
         self.cache: Dict[str, str] = {}
 
     @override
-    async def lookup(self, index: str) -> str:
-        if not (url := self.cache.get(CACHE_KEY_FORMAT.format(index=index))):
-            raise KeyError(f"Index {index} not found in cache")
+    async def lookup(self, token: str):
+        url = self.cache.get(CACHE_KEY_FORMAT.format(token=token))
 
         return url
 
     @override
-    async def store(self, url: str) -> int:
-        self.count += 1
-        self.cache[CACHE_KEY_FORMAT.format(index=self.count)] = url
+    async def store(self, url: str):
+        token = await self.get_unique_token()
+        self.cache[CACHE_KEY_FORMAT.format(token=token)] = url
 
-        return self.count
+        return token
