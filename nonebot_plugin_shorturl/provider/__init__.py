@@ -66,5 +66,5 @@ class ShortURL(BaseModel):
 
         return urljoin(
             plugin_config.shorturl_host,
-            plugin_config.shorturl_endpoint.format(encoded=token),
+            plugin_config.shorturl_endpoint.format(token=token),
         )
